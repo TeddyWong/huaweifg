@@ -1,0 +1,36 @@
+edition: 1.0.0
+name: huaweifg-example
+access: kakadev
+services:
+  huaweifg-example: 
+    component: ../temp
+    props:
+      projectId: 5853f000a0ff44748641c40dfb7962c7
+      region: ap-southeast-1
+      function:
+        functionName: demo-api
+        handler: index.handler
+        memorySize: 128
+        timeout: 30
+        runtime: Node.js14.18
+        package: default
+        codeType: zip
+        code:
+          codeUri: ./code
+      trigger:
+        triggerTypeCode: APIG
+        eventTypeCode: APICreated
+        status: ACTIVE
+        eventData:
+          group_id: 8bfbd144f9004d7b9b527587d434ee19
+          env_name: RELEASE
+          env_id: DEFAULT_ENVIRONMENT_RELEASE_ID
+          auth: NONE
+          protocol: HTTPS
+          name: demoapi
+          path: /hello
+          match_mode: SWA
+          req_method: ANY
+          backend_type: FUNCTION
+          type: 1
+          sl_domain: 8bfbd144f9004d7b9b527587d434ee19.apig.ap-southeast-1.huaweicloudapis.com
