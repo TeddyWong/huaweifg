@@ -3,7 +3,7 @@ exports.handler = function (event, context, callback) {
     CONTEXT = context;
     console.log('OPTIONS request, pass.');
     const result = {
-        body: 'Hello world, hello serverless.',
+        body: 'Hello world, hello serverless!!!!!',
         headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",

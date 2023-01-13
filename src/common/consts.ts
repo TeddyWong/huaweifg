@@ -11,3 +11,12 @@ export const endpoints = {
     "sa-brazil-1": "https://functiongraph.sa-brazil-1.myhuaweicloud.com",
     "ae-ad-1": "https://functiongraph.ae-ad-1.myhuaweicloud.com",
 }
+
+export const defaultFunctionConfig = {
+    runtime: "Node.js14.18",
+    timeout: 30,
+    handler: "index.handler",
+    memorySize: 4096,
+    codeType: "zip",
+    codeFilename: "fgApp.zip",
+}

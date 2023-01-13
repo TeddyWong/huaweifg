@@ -2,21 +2,21 @@ edition: 1.0.0
 name: huaweifg-example
 access: kakadev
 services:
-  huaweifg-example: 
+  example-svc: 
     component: ../temp
     props:
       projectId: 5853f000a0ff44748641c40dfb7962c7
       region: ap-southeast-1
       function:
-        functionName: demo-api
-        handler: index.handler
-        memorySize: 128
-        timeout: 30
-        runtime: Node.js14.18
-        package: default
-        codeType: zip
-        code:
-          codeUri: ./code
+        # funcName: demo-api
+        # package: default
+        # runtime: Node.js14.18 
+        # timeout: 30
+        # handler: index.handler
+        # description: demo-api
+        # memorySize: 128
+        # codeType: zip
+        # distDir: ./dist
       trigger:
         triggerTypeCode: APIG
         eventTypeCode: APICreated
