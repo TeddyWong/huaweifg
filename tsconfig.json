@@ -19,6 +19,7 @@
     "stripInternal": true,
     "pretty": false,
     "declaration": true,
+    "allowJs": true,
     "typeRoots": [
       "./typings",
       "./node_modules/@types"

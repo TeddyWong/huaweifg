@@ -6,9 +6,12 @@ specifiers:
   '@serverless-devs/core': latest
   '@types/lodash': ^4.14.191
   '@types/node': ^14.0.23
+  axios: ^1.2.2
   esbuild: ^0.13.8
   jszip: ^3.10.1
   lodash: ^4.17.21
+  moment: ^2.29.4
+  moment-timezone: ^0.5.40
   rimraf: ^3.0.2
   ts-node: ^8.10.2
   typescript: ^4.4.2
@@ -17,8 +20,11 @@ dependencies:
   '@huaweicloud/huaweicloud-sdk-core': 3.1.21
   '@huaweicloud/huaweicloud-sdk-functiongraph': 3.1.21
   '@serverless-devs/core': 0.1.50
+  axios: 1.2.2
   jszip: 3.10.1
   lodash: 4.17.21
+  moment: 2.29.4
+  moment-timezone: 0.5.40
 
 devDependencies:
   '@types/lodash': 4.14.191
@@ -89,6 +95,16 @@ packages:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
       follow-redirects: 1.15.2
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
+  /axios/1.2.2:
+    resolution: {integrity: sha512-bz/J4gS2S3I7mpN/YZfGFTqhXTYzRho8Ay38w2otuuDR322KzFIWm/4W2K6gIwvWaws5n+mnb7D1lN9uD+QH6Q==}
+    dependencies:
+      follow-redirects: 1.15.2
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
     dev: false
@@ -485,6 +501,10 @@ packages:
 
   /process-nextick-args/2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
+    dev: false
+
+  /proxy-from-env/1.1.0:
+    resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
     dev: false
 
   /ramda/0.27.2:

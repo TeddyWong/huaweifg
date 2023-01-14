@@ -1,21 +1,24 @@
-import { CreateFunctionRequest, CreateFunctionRequestBody, FuncCode, FunctionGraphClient, FuncVpc, ListFunctionResult, ListFunctionsRequest, UpdateFunctionCodeRequest, UpdateFunctionCodeRequestBody, UpdateFunctionConfigRequest, UpdateFunctionConfigRequestBody } from "@huaweicloud/huaweicloud-sdk-functiongraph";
+import { CreateFunctionRequest, CreateFunctionRequestBody, CreateFunctionTriggerRequest, CreateFunctionTriggerRequestBody, FuncCode, FunctionGraphClient, FuncVpc, ListFunctionResult, ListFunctionsRequest, ListFunctionTriggerResult, ListFunctionTriggersRequest, UpdateFunctionCodeRequest, UpdateFunctionCodeRequestBody, UpdateFunctionConfigRequest, UpdateFunctionConfigRequestBody } from "@huaweicloud/huaweicloud-sdk-functiongraph";
 import * as core from "@serverless-devs/core";
-import { assign, upperFirst, find } from "lodash";
+import { assign, upperFirst, find, forEach, map } from "lodash";
+import { ApigClient, ApigClientFactory } from "../common/ApigClientFactory";
 import { defaultFunctionConfig, endpoints } from "../common/consts";
 import { InputProps } from "../common/entity";
 import { FgClientFactory } from "../common/FgClientFactory";
 import logger from "../common/logger";
 import { archiveBase64, copyByWithX } from "../common/utils";
+import { TriggerFactory } from "./libs/TriggerFactory";
 
 export class Deploy {
-    endpoint: string;
     fgClient: FunctionGraphClient;
+    apigClient: ApigClient;
     inputs: InputProps;
 
     constructor(inputs: InputProps) {
         this.inputs = inputs;
         this.handleInputs();
-        this.fgClient = FgClientFactory.getFgClient(this.inputs.credentials, this.inputs.props.projectId, this.endpoint);
+        this.fgClient = FgClientFactory.getFgClient(this.inputs.credentials, this.inputs.props.projectId, this.inputs.props.region);
+        this.apigClient = ApigClientFactory.getApigClient(this.inputs.credentials, this.inputs.props.projectId, this.inputs.props.region);
     }
 
     private handleInputs() {
@@ -39,8 +42,8 @@ export class Deploy {
             throw new Error("Region not found, please input one.");
         }
 
-        this.endpoint = endpoints[props.region];
-        if (!this.endpoint) {
+        const endpoint = endpoints('functiongraph')[props.region];
+        if (!endpoint) {
             throw new Error(`Wrong region.`);
         }
 
@@ -63,14 +66,14 @@ export class Deploy {
         }
 
         // Create or update trigger
-
+        await Promise.all(map(this.inputs.props.triggers, async (trigger) => await this.createFunctionTrigger(funcUrn, trigger)));
     }
 
     async isFunctionExists() {
         const functionName = this.inputs.props.function.funcName;
         const vm1 = core.spinner(`Checking if ${functionName} exits...`);
         const fns = await this.fgClient.listFunctions(new ListFunctionsRequest().withPackageName(this.inputs.props.function.packageName));
-        const fn = find(fns.functions, (fn) => fn.funcName === functionName);
+        const fn = find(fns.functions, (fn) => fn['func_name'] === functionName);
         if (fn) {
             vm1.succeed(`Function ${functionName} is already online.`);
             return fn['func_urn'];
@@ -81,7 +84,7 @@ export class Deploy {
 
     async deployFunction() {
         const vm = core.spinner("Archiving code...");
-        const fileBaes64 = await archiveBase64(this.inputs.props.function.distDir);
+        const fileBaes64 = await archiveBase64(this.inputs.props.distDir);
         vm.succeed("File compression completed");
         const body = copyByWithX(this.inputs.props.function, new CreateFunctionRequestBody());
         const funcVpc = copyByWithX(this.inputs.props.function.funcVpc, new FuncVpc());
@@ -113,5 +116,18 @@ export class Deploy {
         codeBody.withFuncCode(new FuncCode().withFile(fileBaes64));
         await this.fgClient.updateFunctionCode(new UpdateFunctionCodeRequest(funcUrn).withBody(codeBody));
         vm1.succeed(`Function ${body.funcName} updated successfully.`);
+    }
+
+    async createFunctionTrigger(funcUrn: string, triggerProps: any) {
+        const trigger = TriggerFactory.getInstance().getTrigger(triggerProps.triggerTypeCode, this.fgClient, this.apigClient, triggerProps, this.inputs, funcUrn);
+        const eventData = await trigger.getEventData();
+        logger.debug(JSON.stringify(eventData, null, 2));
+        // const vm = core.spinner(`Creating trigger ${triggerProps.triggerName} ...`);
+        // const body = copyByWithX(trigger, new CreateFunctionTriggerRequestBody());
+        // this.fgClient.createFunctionTrigger(new CreateFunctionTriggerRequest().withFunctionUrn(funcUrn).withBody(body));
+    }
+
+    async updateFunctionTrigger(funcUrn: string, trigger: any) {
+
     }
 }

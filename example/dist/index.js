@@ -16,3 +16,8 @@ exports.handler = function (event, context, callback) {
     callback(null, result);
     return;
 }
+
+exports.initializer = function (context, callback) {
+    console.log('initializer start');
+    callback(null, '');
+};
