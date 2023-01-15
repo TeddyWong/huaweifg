@@ -1,0 +1,67 @@
+{
+    "typescript.tsdk": "./node_modules/typescript/lib",
+    "eslint.format.enable": true,
+    "editor.formatOnSave": true,
+    "[typescript]": {
+        "editor.formatOnSave": false,
+    },
+    "eslint.packageManager": "yarn",
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true
+    },
+    "editor.tabSize": 2,
+    "serverlessConsole.services": [
+        {
+            "type": "cloudformation",
+            "title": "msgs-api",
+            "timeOffsetInMs": 0,
+            "awsProfile": "default",
+            "stacks": [
+                {
+                    "region": "ap-southeast-1",
+                    "stackName": "msgs-api-dev",
+                    "stage": "dev"
+                }
+            ]
+        },
+        {
+            "type": "cloudformation",
+            "title": "uc",
+            "timeOffsetInMs": 0,
+            "awsProfile": "default",
+            "stacks": [
+                {
+                    "region": "ap-southeast-1",
+                    "stackName": "usercenter-api-dev",
+                    "stage": "dev"
+                }
+            ]
+        },
+        {
+            "type": "cloudformation",
+            "title": "[PROD] usercenter-api",
+            "timeOffsetInMs": 0,
+            "awsProfile": "prod",
+            "stacks": [
+                {
+                    "region": "ap-southeast-1",
+                    "stackName": "usercenter-api-prod",
+                    "stage": "dev"
+                }
+            ]
+        },
+        {
+            "type": "cloudformation",
+            "title": "[PROD] msgs-api",
+            "timeOffsetInMs": 0,
+            "awsProfile": "prod",
+            "stacks": [
+                {
+                    "region": "ap-southeast-1",
+                    "stackName": "msgs-api-prod",
+                    "stage": "dev"
+                }
+            ]
+        }
+    ]
+}

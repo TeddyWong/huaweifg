@@ -20,20 +20,19 @@ services:
         # distDir: ./dist
       triggers:
         - triggerTypeCode: DEDICATEDGATEWAY
-          eventTypeCode: APICreated
-          status: ACTIVE
-          instanceId: d82d0a2c6eb74cd0b7ec1b6805ee54ba
+          # triggerStatus: ACTIVE
           eventData:
+            instanceId: d82d0a2c6eb74cd0b7ec1b6805ee54ba
             # groupId: 8bfbd144f9004d7b9b527587d434ee19
             # slDomain: 8bfbd144f9004d7b9b527587d434ee19.apig.ap-southeast-1.huaweicloudapis.com
             # env_name: RELEASE
             # env_id: DEFAULT_ENVIRONMENT_RELEASE_ID
-            auth: NONE
-            protocol: HTTPS
-            name: demoapi
-            path: /hello
-            matchMode: SWA
-            reqMethod: ANY
-            backendType: FUNCTION
-            type: 1
+            # auth: NONE
+            # protocol: HTTPS
+            # name: demoapi
+            # path: /hello
+            # matchMode: SWA
+            # reqMethod: ANY
+            # backendType: FUNCTION
+            # type: 1
             

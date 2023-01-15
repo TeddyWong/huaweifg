@@ -20,6 +20,8 @@
     "pretty": false,
     "declaration": true,
     "allowJs": true,
+    "incremental": true,
+    "strictNullChecks": true,
     "typeRoots": [
       "./typings",
       "./node_modules/@types"
