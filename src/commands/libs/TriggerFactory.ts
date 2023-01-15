@@ -5,6 +5,7 @@ import { InputProps } from '../../common/entity';
 import { Trigger } from './Trigger';
 import { ApigTrigger } from './triggers/ApigTrigger';
 import { DedicatedGatewayTrigger } from './triggers/DedicatedGatewayTrigger';
+import { TimerTrigger } from './triggers/TimerTrigger';
 
 export class TriggerFactory {
   private registry = new Map<string, ClassType<Trigger>>();
@@ -14,6 +15,7 @@ export class TriggerFactory {
   private constructor(private fgClient: FunctionGraphClient, private apigClient: ApigClient) {
     this.registerTrigger(ApigTrigger);
     this.registerTrigger(DedicatedGatewayTrigger);
+    this.registerTrigger(TimerTrigger);
   }
 
   static getInstance(fgClient: FunctionGraphClient, apigClient: ApigClient) {

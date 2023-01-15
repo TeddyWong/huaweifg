@@ -1,10 +1,8 @@
 import fs from 'fs';
 import JSZip from 'jszip';
-import { assign, camelCase, map, snakeCase, upperFirst } from 'lodash';
+import { camelCase, map, snakeCase, upperFirst } from 'lodash';
 import path from 'path';
 import logger from '../common/logger';
-import { ClassType } from './consts';
-const zip = new JSZip();
 
 function readDir(zip: JSZip, nowPath: string, targetDir: string) {
   try {
@@ -33,6 +31,7 @@ function readDir(zip: JSZip, nowPath: string, targetDir: string) {
 }
 
 export async function archiveBase64(codePath: string) {
+  const zip = new JSZip();
   const tempFileName = './temp.zip';
   const targetDir = path.resolve(codePath);
   try {
@@ -91,11 +90,21 @@ export const toCamelCase = (obj?: any) => {
     const newKey = camelCase(key);
     if (typeof obj[key] === 'object' && obj[key] !== null) {
       newObj[newKey] = toCamelCase(obj[key]);
+    } else if (Array.isArray(obj[key])) {
+      newObj[newKey] = toCamelCaseArray(obj[key]);
     } else {
       newObj[newKey] = obj[key];
     }
   });
   return newObj;
+};
+
+export const toSnakeCaseArray = <T = any>(resultObjs?: T[]) => {
+  if (resultObjs) {
+    return map(resultObjs, (resultObj) => toSnakeCase(resultObj));
+  } else {
+    return [];
+  }
 };
 
 export const toSnakeCase = (obj: any) => {
@@ -104,6 +113,8 @@ export const toSnakeCase = (obj: any) => {
     const newKey = snakeCase(key);
     if (typeof obj[key] === 'object' && obj[key] !== null) {
       newObj[newKey] = toSnakeCase(obj[key]);
+    } else if (Array.isArray(obj[key])) {
+      newObj[newKey] = toSnakeCaseArray(obj[key]);
     } else {
       newObj[newKey] = obj[key];
     }

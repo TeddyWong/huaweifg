@@ -17,12 +17,6 @@ export abstract class Trigger {
 
   async listFunctionTriggers(funcUrn: string) {
     const triggers = toCamelCaseArray(await this.fgClient.listFunctionTriggers(new ListFunctionTriggersRequest().withFunctionUrn(funcUrn)));
-    // forEach(triggers, (trigger) => {
-    //   if (trigger.eventData) {
-    //     trigger.withEventData(toCamelCase(trigger.eventData));
-    //   }
-    // });
-
     return triggers;
   }
 
@@ -40,16 +34,5 @@ export abstract class Trigger {
     const resp = await this.fgClient.createFunctionTrigger(new CreateFunctionTriggerRequest().withFunctionUrn(funcUrn).withBody(body));
     logger.debug(JSON.stringify(resp, null, 2));
     vm.succeed(`Trigger ${triggerData.eventData.name} created`);
-  }
-
-  async updateFunctionTrigger(funcUrn: string, existingTrigger: ListFunctionTriggerResult) {
-    const triggerData = await this.getTriggerData();
-    logger.debug(JSON.stringify(existingTrigger.eventData, null, 2));
-    // const vm = core.spinner(`Creating trigger ${triggerData.eventData.name} ...`);
-    // const body = copyByWithX(triggerData, new CreateFunctionTriggerRequestBody());
-    // body.withEventData(toSnakeCase(triggerData.eventData));
-    // const resp = await this.fgClient.createFunctionTrigger(new CreateFunctionTriggerRequest().withFunctionUrn(funcUrn).withBody(body));
-    // logger.debug(JSON.stringify(resp, null, 2));
-    // vm.succeed(`Trigger ${triggerData.eventData.name} created`);
   }
 }

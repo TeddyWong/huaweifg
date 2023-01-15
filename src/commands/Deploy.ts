@@ -1,4 +1,5 @@
 import { FunctionGraphClient } from '@huaweicloud/huaweicloud-sdk-functiongraph';
+import * as core from '@serverless-devs/core';
 import { assign, map } from 'lodash';
 import { ApigClient, ApigClientFactory } from '../common/ApigClientFactory';
 import { defaultFunctionConfig, endpoints } from '../common/consts';
@@ -69,18 +70,30 @@ export class Deploy {
     }
     if (funcUrn) {
       // Create or update trigger
-      await Promise.all(
-        map(this.inputs.props.triggers, async (triggerProps) => {
-          const trigger = this.triggerFactory.getTrigger(triggerProps.triggerTypeCode, triggerProps, this.inputs, funcUrn!);
-          const existingTrigger = await trigger.findExistingTrigger(funcUrn!);
-          if (!existingTrigger) {
-            await trigger.createFunctionTrigger(funcUrn!);
-          } else {
-            await trigger.updateFunctionTrigger(funcUrn!, existingTrigger);
-          }
-          return null;
-        }),
-      );
+      for (const triggerProps of this.inputs.props.triggers) {
+        const trigger = this.triggerFactory.getTrigger(triggerProps.triggerTypeCode, triggerProps, this.inputs, funcUrn);
+        const existingTrigger = await trigger.findExistingTrigger(funcUrn);
+        const vm = core.spinner(`Checking if trigger[${trigger.triggerTypeCode}] of ${this.inputs.props.function.funcName} exists ...`);
+        if (!existingTrigger) {
+          vm.succeed(`Trigger[${trigger.triggerTypeCode}] not found`);
+          await trigger.createFunctionTrigger(funcUrn);
+        } else {
+          vm.succeed(`Trigger[${trigger.triggerTypeCode}] of ${this.inputs.props.function.funcName} already exists, skip creating. If you want to update the trigger, please delete it first.`);
+        }
+      }
+      // await Promise.all(
+      //   map(this.inputs.props.triggers, async (triggerProps) => {
+      //     const trigger = this.triggerFactory.getTrigger(triggerProps.triggerTypeCode, triggerProps, this.inputs, funcUrn!);
+      //     const existingTrigger = await trigger.findExistingTrigger(funcUrn!);
+      //     const vm = core.spinner(`Checking if trigger[${trigger.triggerTypeCode}] of ${this.inputs.props.function.funcName} exists ...`);
+      //     if (!existingTrigger) {
+      //       vm.succeed(`Trigger[${trigger.triggerTypeCode}] not found`);
+      //       await trigger.createFunctionTrigger(funcUrn!);
+      //     } else {
+      //       vm.succeed(`Trigger[${trigger.triggerTypeCode}] of ${this.inputs.props.function.funcName} already exists, skip creating. If you want to update the trigger, please delete it first.`);
+      //     }
+      //   }),
+      // );
     }
   }
 }

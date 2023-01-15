@@ -1,9 +1,8 @@
-let CONTEXT = null;
+'use strict';
 exports.handler = function (event, context, callback) {
-    CONTEXT = context;
-    console.log('OPTIONS request, pass.');
+    console.log(`${JSON.stringify(event, null, 2)}`);
     const result = {
-        body: 'Hello world, hello serverless!!!!!',
+        body: `${JSON.stringify(event, null, 2)}`,
         headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",

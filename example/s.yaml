@@ -35,4 +35,10 @@ services:
             # reqMethod: ANY
             # backendType: FUNCTION
             # type: 1
+        # - triggerTypeCode: TIMER
+        #   eventData:
+        #     name: OneMinTimer
+        #     schedule: 1m
+        #     scheduleType: Rate
+        #     userEvent: 'anything here'
             
