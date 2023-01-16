@@ -1,4 +1,15 @@
-import { CreateFunctionRequest, CreateFunctionRequestBody, FuncCode, FunctionGraphClient, FuncVpc, ListFunctionsRequest, UpdateFunctionCodeRequest, UpdateFunctionCodeRequestBody, UpdateFunctionConfigRequest, UpdateFunctionConfigRequestBody } from '@huaweicloud/huaweicloud-sdk-functiongraph';
+import {
+  CreateFunctionRequest,
+  CreateFunctionRequestBody,
+  FuncCode,
+  FunctionGraphClient,
+  FuncVpc,
+  ListFunctionsRequest,
+  UpdateFunctionCodeRequest,
+  UpdateFunctionCodeRequestBody,
+  UpdateFunctionConfigRequest,
+  UpdateFunctionConfigRequestBody,
+} from '@huaweicloud/huaweicloud-sdk-functiongraph';
 import * as core from '@serverless-devs/core';
 import { find } from 'lodash';
 import { InputProps } from '../../common/entity';

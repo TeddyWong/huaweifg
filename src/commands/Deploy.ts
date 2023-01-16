@@ -1,6 +1,6 @@
 import { FunctionGraphClient } from '@huaweicloud/huaweicloud-sdk-functiongraph';
 import * as core from '@serverless-devs/core';
-import { assign, map } from 'lodash';
+import { assign } from 'lodash';
 import { ApigClient, ApigClientFactory } from '../common/ApigClientFactory';
 import { defaultFunctionConfig, endpoints } from '../common/consts';
 import { InputProps } from '../common/entity';

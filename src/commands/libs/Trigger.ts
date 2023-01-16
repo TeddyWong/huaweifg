@@ -1,4 +1,10 @@
-import { CreateFunctionTriggerRequest, CreateFunctionTriggerRequestBody, FunctionGraphClient, ListFunctionTriggerResult, ListFunctionTriggersRequest } from '@huaweicloud/huaweicloud-sdk-functiongraph';
+import {
+  CreateFunctionTriggerRequest,
+  CreateFunctionTriggerRequestBody,
+  FunctionGraphClient,
+  ListFunctionTriggerResult,
+  ListFunctionTriggersRequest,
+} from '@huaweicloud/huaweicloud-sdk-functiongraph';
 import * as core from '@serverless-devs/core';
 import { find } from 'lodash';
 import { ApigClient } from '../../common/ApigClientFactory';
