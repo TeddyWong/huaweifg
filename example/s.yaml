@@ -22,6 +22,7 @@ services:
         - triggerTypeCode: DEDICATEDGATEWAY
           # triggerStatus: ACTIVE
           eventData:
+            # MUST HAVE THIS FIELD IF CREATE A DEDICATEDGATEWAY TRIGGER
             instanceId: d82d0a2c6eb74cd0b7ec1b6805ee54ba
             # groupId: 8bfbd144f9004d7b9b527587d434ee19
             # slDomain: 8bfbd144f9004d7b9b527587d434ee19.apig.ap-southeast-1.huaweicloudapis.com
