@@ -1,6 +1,6 @@
 {
   "name": "ServerlessDevsComponent",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "This is a component demo for Serverless Devs Tool ",
   "autoInstall": false,
   "homepage": "https://www.serverless-devs.com",
@@ -21,8 +21,8 @@
   "scripts": {
     "start": "npm run watch",
     "watch": "tsc -w",
-    "prebuild": "rimraf package-lock.json && rimraf dist && rimraf node_modules && npm i",
-    "build": "esbuild src/index.ts --bundle --log-level=error --minify --platform=node --format=cjs --target=node10.4 --external:@serverless-devs/core --outfile=dist/index.js"
+    "build": "rimraf dist && esbuild src/index.ts --bundle --log-level=error --minify --platform=node --format=cjs --target=node10.4 --external:@serverless-devs/core --external:./js/hmac-sha256.js --outfile=dist/index.js",
+    "publish:registry": "pnpm build && s cli registry publish"
   },
   "dependencies": {
     "@huaweicloud/huaweicloud-sdk-core": "^3.1.21",
