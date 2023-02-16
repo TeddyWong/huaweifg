@@ -1,6 +1,7 @@
 import {
   CreateFunctionRequest,
   CreateFunctionRequestBody,
+  CreateFunctionRequestBodyTypeEnum,
   FuncCode,
   FunctionGraphClient,
   FuncVpc,
@@ -42,6 +43,7 @@ export class FgFunction {
     }
     vm.succeed('File compression completed');
     const body = copyByWithX(this.inputs.props.function, new CreateFunctionRequestBody());
+    body.type = CreateFunctionRequestBodyTypeEnum.V2;
     const funcVpc = copyByWithX(this.inputs.props.function.funcVpc, new FuncVpc());
     if (funcVpc) {
       body.withFuncVpc(funcVpc);
