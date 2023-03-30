@@ -6,10 +6,13 @@ import {
   FunctionGraphClient,
   FuncVpc,
   ListFunctionsRequest,
+  ListReservedInstanceConfigsRequest,
   UpdateFunctionCodeRequest,
   UpdateFunctionCodeRequestBody,
   UpdateFunctionConfigRequest,
   UpdateFunctionConfigRequestBody,
+  UpdateFunctionReservedInstancesCountRequest,
+  UpdateFunctionReservedInstancesCountRequestBody,
 } from '@huaweicloud/huaweicloud-sdk-functiongraph';
 import * as core from '@serverless-devs/core';
 import { find } from 'lodash';
@@ -71,10 +74,25 @@ export class FgFunction {
 
     logger.debug(JSON.stringify(body, null, 2));
     const vm1 = core.spinner(`Updating function ${body.funcName} ...`);
+
+    const { reservedInstances } = await this.fgClient.listReservedInstanceConfigs(new ListReservedInstanceConfigsRequest().withFunctionUrn(funcUrn).withLimit('500'));
+    await Promise.all(
+      reservedInstances?.map(async (ri) => {
+        await this.fgClient.updateFunctionReservedInstancesCount(new UpdateFunctionReservedInstancesCountRequest(funcUrn).withBody(new UpdateFunctionReservedInstancesCountRequestBody(0)));
+      }) ?? [],
+    );
+
     await this.fgClient.updateFunctionConfig(new UpdateFunctionConfigRequest().withFunctionUrn(funcUrn).withBody(body));
     const codeBody = copyByWithX(this.inputs.props.function, new UpdateFunctionCodeRequestBody());
     codeBody.withFuncCode(new FuncCode().withFile(fileBaes64));
     await this.fgClient.updateFunctionCode(new UpdateFunctionCodeRequest(funcUrn).withBody(codeBody));
+
+    await Promise.all(
+      reservedInstances?.map(async (ri) => {
+        await this.fgClient.updateFunctionReservedInstancesCount(new UpdateFunctionReservedInstancesCountRequest(funcUrn).withBody(new UpdateFunctionReservedInstancesCountRequestBody(ri.minCount)));
+      }) ?? [],
+    );
+
     vm1.succeed(`Function ${body.funcName} updated successfully.`);
   }
 }
