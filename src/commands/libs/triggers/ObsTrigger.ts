@@ -21,10 +21,11 @@ export class ObsTrigger extends Trigger {
       ...this.triggerProps.eventData,
     };
 
-    return {
+    const triggerData = {
       triggerTypeCode: this.triggerTypeCode,
       triggerStatus: this.triggerProps.triggerStatus ?? 'ACTIVE',
       eventData,
     };
+    return triggerData;
   }
 }

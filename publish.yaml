@@ -2,7 +2,7 @@ Type: Component
 Name: HuaweiFG
 Provider:
   - 华为云 
-Version: 0.1.5
+Version: 0.1.6
 Description: Huawei Cloud FunctionGraph Component
 HomePage: https://github.com/TeddyWong/huaweifg
 Category: 基础云服务

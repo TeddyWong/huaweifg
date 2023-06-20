@@ -42,4 +42,12 @@ services:
         #     schedule: 1m
         #     scheduleType: Rate
         #     userEvent: 'anything here'
-            
+        
+        - triggerTypeCode: OBS
+          eventData:
+            name: ShortVideoProcessor
+            bucket: kakaobs-dev
+            events:
+              - s3:ObjectCreated:*
+            prefix: video/
+            suffix: .mp4

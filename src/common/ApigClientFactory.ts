@@ -76,8 +76,8 @@ export class ApigClient {
 
 const createRequestOption = (credentials: ICredentials, method: string, url: string, projectId: string, body?: any) => {
   const sig = new signer.Signer();
-  sig.Key = credentials.AccessKeyID;
-  sig.Secret = credentials.SecretAccessKey;
+  sig.Key = credentials.AccessKeyID!;
+  sig.Secret = credentials.SecretAccessKey!;
   const r = new signer.HttpRequest(method, url);
   r.headers = {
     'Content-Type': 'application/json',

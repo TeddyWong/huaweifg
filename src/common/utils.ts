@@ -109,12 +109,13 @@ export const toSnakeCaseArray = <T = any>(resultObjs?: T[]) => {
 
 export const toSnakeCase = (obj: any) => {
   const newObj = {};
+  if (typeof obj !== 'object' || obj === null) return obj;
   Object.keys(obj).forEach((key) => {
     const newKey = snakeCase(key);
-    if (typeof obj[key] === 'object' && obj[key] !== null) {
-      newObj[newKey] = toSnakeCase(obj[key]);
-    } else if (Array.isArray(obj[key])) {
+    if (Array.isArray(obj[key])) {
       newObj[newKey] = toSnakeCaseArray(obj[key]);
+    } else if (typeof obj[key] === 'object' && obj[key] !== null) {
+      newObj[newKey] = toSnakeCase(obj[key]);
     } else {
       newObj[newKey] = obj[key];
     }

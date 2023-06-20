@@ -1,6 +1,6 @@
 {
   "name": "ServerlessDevsComponent",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "This is a component demo for Serverless Devs Tool ",
   "autoInstall": false,
   "homepage": "https://www.serverless-devs.com",
