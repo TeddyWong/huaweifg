@@ -5,6 +5,7 @@ import { InputProps } from '../../common/entity';
 import { Trigger } from './Trigger';
 import { ApigTrigger } from './triggers/ApigTrigger';
 import { DedicatedGatewayTrigger } from './triggers/DedicatedGatewayTrigger';
+import { ObsTrigger } from './triggers/ObsTrigger';
 import { TimerTrigger } from './triggers/TimerTrigger';
 
 export class TriggerFactory {
@@ -16,6 +17,7 @@ export class TriggerFactory {
     this.registerTrigger(ApigTrigger);
     this.registerTrigger(DedicatedGatewayTrigger);
     this.registerTrigger(TimerTrigger);
+    this.registerTrigger(ObsTrigger);
   }
 
   static getInstance(fgClient: FunctionGraphClient, apigClient: ApigClient) {
